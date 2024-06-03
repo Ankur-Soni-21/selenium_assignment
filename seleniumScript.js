@@ -8,13 +8,14 @@ const chrome = require('selenium-webdriver/chrome');
 
 dotenv.config();
 
-// options.addArguments(`--proxy-server=${process.env.PROXY}`);
 const options = new chrome.Options();
 options.addArguments('--headless');
 options.addArguments('--no-sandbox');
 options.addArguments('--disable-dev-shm-usage');
 options.addArguments('--disable-gpu');
 options.addArguments('--window-size=1280x800');
+options.addArguments(`--proxy-server=${process.env.PROXY}`);
+
 
 const uri = "mongodb://localhost:27017/";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -109,8 +110,8 @@ async function getIp() {
     };
 
     try {
-        // const response = await axios.get('http://ipinfo.io/ip', { proxy });
-        const response = await axios.get('http://ipinfo.io/ip');
+        const response = await axios.get('http://ipinfo.io/ip', { proxy });
+        // const response = await axios.get('http://ipinfo.io/ip');
         return response.data;
     } catch (error) {
         console.error("Error getting IP: ", error);
@@ -120,7 +121,6 @@ async function getIp() {
 
 (async function main() {
     let driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
-    // let driver = await new Builder().forBrowser('chrome').build();
     try {
         await driver.get('https://www.x.com');
         await driver.manage().window().maximize();
