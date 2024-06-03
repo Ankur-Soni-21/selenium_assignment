@@ -5,7 +5,6 @@ const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 const chrome = require('selenium-webdriver/chrome');
 
-
 dotenv.config();
 
 const options = new chrome.Options();
